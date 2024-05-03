@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using registro_empleados.Models;
+using proyect_API_Backend.Models;
 
 namespace proyect_API_Backend.Data
 {
@@ -8,7 +8,7 @@ namespace proyect_API_Backend.Data
         public BaseContext(DbContextOptions<BaseContext> options): base(options){
 
         }
-        public DbSet <Nota> Notas { get; set; }
+        public DbSet <proyect_API> proyect_API { get; set; }
      
     }
 }
