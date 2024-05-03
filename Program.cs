@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
+using proyect_API_Backend.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<BaseContext>(options =>
+options.UseMySql(builder.Configuration.GetConnectionString("MySqlConnection"),
+Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
+builder.Services.AddControllers();
+
+
 var app = builder.Build();
+app.MapControllers();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
