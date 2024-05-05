@@ -8,7 +8,7 @@ namespace proyect_API_Backend.Data
         public BaseContext(DbContextOptions<BaseContext> options): base(options){
 
         }
-        public DbSet <proyect_API> proyect_API { get; set; }
+        public DbSet <Nota> Notas { get; set; }
      
     }
 }

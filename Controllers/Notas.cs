@@ -11,37 +11,58 @@ namespace proyect_API_Backend.Controllers{
 
     [Route("api/[controller]")]
     [ApiController]
-    public class proyect_APIController : ControllerBase
+    public class NotasController : ControllerBase
     {
         public readonly BaseContext _context;
 
-        public proyect_APIController(BaseContext context)
+        public NotasController(BaseContext context)
         {
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<proyect_API>>>GetUsers()
+        public async Task<ActionResult<IEnumerable<Nota>>>GetUsers()
         {
-            return await _context.proyect_API.ToListAsync();
+            return await _context.Notas.ToListAsync();
         }
 
         // LIST ALL USERS
         
 
        [HttpGet("{Id}")]
-          public async Task<ActionResult<proyect_API>> GetUser(int Id)
+          public async Task<ActionResult<Nota>> GetUser(int Id)
           {
-            var User = await _context.proyect_API.FindAsync(Id);
+            var Notas = await _context.Notas.FindAsync(Id);
 
-            if (User == null)
+            if (Notas == null)
             {
                 return NotFound();
             }
-            return User;
+            return Notas;
+            }
 
+        
+
+       [HttpPost]
+        public async Task<ActionResult<Nota>> PostUser(Nota Nota)
+        
+        {   
+            _context.Notas.Add(Nota);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("PostUser", new { Id = Nota.Id }, Nota);    
         }
 
-
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult<Nota>> DeleteNota(int Id)
+        {
+            var Nota = await _context.Notas.FindAsync(Id);
+            if (Nota == null)
+            {
+                return NotFound();
+            }
+            _context.Notas.Remove(Nota);
+            await _context.SaveChangesAsync();
+            return Nota;
+        }
 
        
 
@@ -64,17 +85,14 @@ namespace proyect_API_Backend.Controllers{
 
 
         //DEFINIMOS EDIT
-        public async  Task<IActionResult> Edit(int id){
-            return View(await _context.Users.FirstOrDefaultAsync(m=>m.Id == id));
-        }
         [HttpPost]
-        public  IActionResult Edit(Empleado E, int Id ){
-            _context.Empleados.Update(E);
+        public  IActionResult Edit(proyect_API U, int Id ){
+            _context.proyect_API.Update(U);
             _context.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }*/
 
-        
+        /*
         //DEFINIMOS DELETE
        public async Task<IActionResult> Delete(int? Id)
         {
@@ -82,9 +100,10 @@ namespace proyect_API_Backend.Controllers{
             _context.Empleados.Remove(Empleado);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-        } 
+        } */
 
-        /DEFINIMOS LA BUSQUEDA
+        //DEFINIMOS LA BUSQUEDA
+        /*
          public IActionResult Search(string searchString, object J)
         {
             var Empleado = _context.Empleados.AsQueryable();
