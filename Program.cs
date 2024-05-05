@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using proyect_API_Backend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddControllers(); //Agregamos controladores de los permimosos
+builder.Services.AddCors(options =>{
+    options.AddPolicy("AllowAnyOrigin",
+        builder => builder.AllowAnyOrigin()
+       .AllowAnyHeader()
+       .AllowAnyMethod());
+});
 builder.Services.AddDbContext<BaseContext>(options =>
 options.UseMySql(builder.Configuration.GetConnectionString("MySqlConnection"),
 Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
@@ -16,6 +23,7 @@ builder.Services.AddControllers();
 
 
 var app = builder.Build();
+app.UseCors("AllowAnyOrigin"); // Estos son los permisos que deberia tener para usar le fetch
 app.MapControllers();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.MapControllers(); //Agregamos el MapControllers
 
 app.UseHttpsRedirection();
 
