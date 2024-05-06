@@ -41,16 +41,17 @@ namespace proyect_API_Backend.Controllers{
             }
 
         
-
+        //DEFINIMOS CREAR
        [HttpPost]
-        public async Task<ActionResult<Nota>> PostUser(Nota Nota)
-        
-        {   
-            _context.Notas.Add(Nota);
+        public async Task<ActionResult<Nota>> PostUser(Nota nota){   
+    
+            _context.Notas.Add(nota);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("PostUser", new { Id = Nota.Id }, Nota);    
+            return CreatedAtAction("GetUser", new { Id = nota.Id }, nota);    
         }
 
+
+        //DEFINIMOS DELETE
         [HttpDelete("{Id}")]
         public async Task<ActionResult<Nota>> DeleteNota(int Id)
         {
@@ -64,9 +65,64 @@ namespace proyect_API_Backend.Controllers{
             return Nota;
         }
 
-       
+        
+        //DEFINIMOS EDIT
+        [HttpPut]
+        public  IActionResult Edit(Nota N, int Id ){
+            _context.Notas.Update(N);
+            _context.SaveChanges();
+            return RedirectToAction("GetUsers");
+        }
 
-        /* DEFINIMOS DETALLES
+
+        /*
+        //DEFINIMOS BUSCAR
+        [HttpGet("{Nombre}")]
+          public ActionResult<IEnumerable<Nota>> Search(string Nombre)
+        {
+            
+            var resultados = _context.Notas.Where(N => N.Nombre.Contains(Nombre)).ToList();
+
+            if (resultados.Count == 0)
+            {
+                return NotFound(); 
+            }
+
+            return StatusCode(200, resultados); 
+        }*/
+        
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* DEFINIMOS DETALLES
           public async Task<IActionResult> Details(int? id){
             return View(await _context.Users.FirstOrDefaultAsync(m=>m.Id == id));
             
@@ -83,14 +139,7 @@ namespace proyect_API_Backend.Controllers{
           return RedirectToAction("Index");
         }
 
-
-        //DEFINIMOS EDIT
-        [HttpPost]
-        public  IActionResult Edit(proyect_API U, int Id ){
-            _context.proyect_API.Update(U);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
-        }*/
+*/
 
         /*
         //DEFINIMOS DELETE
@@ -112,7 +161,25 @@ namespace proyect_API_Backend.Controllers{
              Empleado = Empleado.Where(E => E.Nombres.Contains(searchString) || E.Apellidos.Contains(searchString) || E.Correo.Contains(searchString)|| E.Genero.Contains(searchString)|| E.Estado_Civil.Contains(searchString)|| E.Idiomas.Contains(searchString));
             }
             return View("Index",Empleado.ToList());
-        }  */      
+        }  */    
+
+
         
-    }
-}
+
+         //DEFINIMOS LA BUSQUEDA_ 2
+
+
+            /*   [HttpGet("{titulo}")]
+          public ActionResult<IEnumerable<Note>> Get(string titulo)
+        {
+            
+            var resultados = _context.Notes.Where(e => e.Title.Contains(titulo)).ToList();
+
+            if (resultados.Count == 0)
+            {
+                return NotFound(); 
+            }
+
+            return StatusCode(200, resultados); 
+        }*/
+         
